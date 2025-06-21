@@ -30,25 +30,9 @@ return require('packer').startup(function(use)
             enable = true,
             additional_vim_regex_highlighting = false,
         },
-    }    -- LSP and Mason
-    use {
-        "williamboman/mason.nvim",
-        "williamboman/mason-lspconfig.nvim",
-        "neovim/nvim-lspconfig",
-    }
-      -- Autocompletion
-    use {
-        'hrsh7th/nvim-cmp',         -- The completion plugin
-        requires = {
-            'hrsh7th/cmp-nvim-lsp', -- LSP source for nvim-cmp
-            'hrsh7th/cmp-buffer',   -- Buffer completions
-            'hrsh7th/cmp-path',     -- Path completions
-            'hrsh7th/cmp-cmdline',  -- Command line completions
-            'L3MON4D3/LuaSnip',     -- Snippet engine
-            'saadparwaiz1/cmp_luasnip', -- Luasnip completions
-            'lukas-reineke/cmp-under-comparator', -- Better sorting/deduplication
-        }
-    }    -- Git
+    }    
+    
+    -- Git
     use 'tpope/vim-fugitive'
 
     -- Autocomplete enhancements
@@ -62,5 +46,18 @@ return require('packer').startup(function(use)
 
     -- VimBeGood
     use 'ThePrimeagen/vim-be-good'
+
+    --lsp
+    use 'neovim/nvim-lspconfig'
+
+    --auto complete
+    use 'hrsh7th/cmp-nvim-lsp'
+    use 'hrsh7th/cmp-buffer'
+    use 'hrsh7th/cmp-path'
+    use 'hrsh7th/cmp-cmdline'
+    use 'hrsh7th/nvim-cmp'
+    use 'hrsh7th/cmp-vsnip'
+    use 'hrsh7th/vim-vsnip'
+    vim.opt.completeopt = { "menu", "menuone", "noselect" }
 
 end)
