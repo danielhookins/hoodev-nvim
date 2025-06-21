@@ -77,7 +77,8 @@ This repository contains a modular Neovim configuration designed for productivit
 #### Go Development Setup
 - To use golang autocompletion and language support:
   1. Install Go according to [official instructions](https://golang.org/doc/install)
-  2. When starting Neovim, Mason will automatically install `gopls` (Go's language server)
+  2. Install `gopls` (Go's language server)
+    `go install golang.org/x/tools/gopls@latest`
   3. The configuration includes:
      - Auto-importing of packages
      - Function parameter placeholders
