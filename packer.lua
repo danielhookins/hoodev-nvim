@@ -30,17 +30,29 @@ return require('packer').startup(function(use)
             enable = true,
             additional_vim_regex_highlighting = false,
         },
-    }
-
-    -- LSP and Mason
+    }    -- LSP and Mason
     use {
         "williamboman/mason.nvim",
         "williamboman/mason-lspconfig.nvim",
         "neovim/nvim-lspconfig",
     }
-
-    -- Git
+      -- Autocompletion
+    use {
+        'hrsh7th/nvim-cmp',         -- The completion plugin
+        requires = {
+            'hrsh7th/cmp-nvim-lsp', -- LSP source for nvim-cmp
+            'hrsh7th/cmp-buffer',   -- Buffer completions
+            'hrsh7th/cmp-path',     -- Path completions
+            'hrsh7th/cmp-cmdline',  -- Command line completions
+            'L3MON4D3/LuaSnip',     -- Snippet engine
+            'saadparwaiz1/cmp_luasnip', -- Luasnip completions
+            'lukas-reineke/cmp-under-comparator', -- Better sorting/deduplication
+        }
+    }    -- Git
     use 'tpope/vim-fugitive'
+
+    -- Autocomplete enhancements
+    use 'lukas-reineke/cmp-under-comparator'
 
     -- Statusline
     use {
