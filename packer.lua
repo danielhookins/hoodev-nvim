@@ -1,9 +1,16 @@
-if pcall(require, 'packer') then
-    require('packer').init()
-else
+-- Auto install packer.nvim if not installed
+local ensure_packer = function()
+  local fn = vim.fn
+  local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
+  if fn.empty(fn.glob(install_path)) > 0 then
+    fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
     vim.cmd [[packadd packer.nvim]]
+    return true
+  end
+  return false
 end
 
+local packer_bootstrap = ensure_packer()
 
 return require('packer').startup(function(use)
     -- Packer can manage itself
@@ -19,17 +26,9 @@ return require('packer').startup(function(use)
     use 'folke/tokyonight.nvim'
 
     -- Treesitter
-    use (
+    use {
         'nvim-treesitter/nvim-treesitter',
-        {run = ':TSUpdate'}
-    )
-    require('nvim-treesitter.configs').setup {
-        ensure_installed = { "go", "gomod" },
-        auto_install = true,               -- install missing parsers when entering buffer
-        highlight = {
-            enable = true,
-            additional_vim_regex_highlighting = false,
-        },
+        run = ':TSUpdate'
     }    
     
     -- Git
@@ -60,4 +59,9 @@ return require('packer').startup(function(use)
     use 'hrsh7th/vim-vsnip'
     vim.opt.completeopt = { "menu", "menuone", "noselect" }
 
+    -- Automatically set up your configuration after cloning packer.nvim
+    -- Put this at the end after all plugins
+    if packer_bootstrap then
+        require('packer').sync()
+    end
 end)

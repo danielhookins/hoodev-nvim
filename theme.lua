@@ -1,4 +1,10 @@
-require("tokyonight").setup({
+-- Theme configuration
+local status_ok, tokyonight = pcall(require, "tokyonight")
+if not status_ok then
+    return
+end
+
+tokyonight.setup({
   style = "storm", -- Options: "storm", "moon", "night", "day"
   transparent = false,
   terminal_colors = true,
