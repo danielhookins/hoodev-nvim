@@ -20,7 +20,7 @@ cmp.setup({
     end,
   },
   mapping = {
-    -- ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+    ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
     ["<Tab>"] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_next_item()
@@ -39,10 +39,12 @@ cmp.setup({
         feedkey("<Plug>(vsnip-jump-prev)", "")
       end
     end, { "i", "s" }),
+    ["<C-Space>"] = cmp.mapping(cmp.mapping.complete(), { "i", "c" }),
   },
   sources = cmp.config.sources({
     { name = 'nvim_lsp' },
     { name = 'vsnip' }, -- For vsnip users.
+    { name = 'path' },
   }, {
     { name = 'buffer' },
   })
@@ -56,7 +58,33 @@ local on_attach = function(client, bufnr)
   local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
 
   buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
+  
+  -- Key mappings
+  local opts = { noremap=true, silent=true }
+  buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+  buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
+  buf_set_keymap('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
+  buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+  buf_set_keymap('n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+  buf_set_keymap('n', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+  buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+  buf_set_keymap('n', '<space>f', '<cmd>lua vim.lsp.buf.format()<CR>', opts)
+  
+  -- Enable completion triggered by <c-x><c-o>
+  buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
 end
+
+-- Configure diagnostics
+vim.diagnostic.config({
+  virtual_text = true,
+  signs = true,
+  underline = true,
+  update_in_insert = false,
+  severity_sort = false,
+})
+
+-- Show line diagnostics automatically in hover window
+vim.cmd [[autocmd CursorHold,CursorHoldI * lua vim.diagnostic.open_float(nil, {focus=false})]]
 
 -- Setup lspconfig.
 local lspconfig_status_ok, nvim_lsp = pcall(require, 'lspconfig')
@@ -68,7 +96,7 @@ end
 -- GoLang
 nvim_lsp['gopls'].setup{
   cmd = {'gopls'},
-  -- on_attach = on_attach,
+  on_attach = on_attach,
   capabilities = capabilities,
   settings = {
     gopls = {
@@ -78,6 +106,7 @@ nvim_lsp['gopls'].setup{
         shadow = true,
       },
       staticcheck = true,
+      gofumpt = true,
     },
   },
   init_options = {
