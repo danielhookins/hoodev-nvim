@@ -1,11 +1,11 @@
 # Hoodev Neovim Setup
 
-This repository contains a modular Neovim configuration designed for productivity and ease of use. It leverages Lua for configuration and uses `packer.nvim` for plugin management.
+This repository contains a modular Neovim configuration designed for productivity and ease of use. It leverages Lua for configuration and uses `lazy.nvim` for plugin management.
 
 ## Requirements
 
 - **Neovim**: Version 0.8 or higher is required for LSP and Treesitter features.
-- **Git**: Required for plugin management with packer.nvim.
+- **Git**: Required for plugin management with lazy.nvim.
 - **A Nerd Font**: For proper icon rendering in lualine and telescope (e.g., [FiraCode Nerd Font](https://www.nerdfonts.com/)).
 - **ripgrep**: Required for telescope live_grep functionality.
 - **Language servers**: For enhanced development experience (see Language Server section).
@@ -60,7 +60,7 @@ This repository contains a modular Neovim configuration designed for productivit
 
 3. Ensure the following files are present in the `hoodev-nvim` directory:
    - `init.lua` (module entry point)
-   - `packer.lua` (plugin management)
+   - `lazy.lua` (plugin management)
    - `lsp.lua` (LSP and autocompletion)
    - `remap.lua` (key mappings)
    - `set.lua` (general settings)
@@ -68,11 +68,12 @@ This repository contains a modular Neovim configuration designed for productivit
    - `treesitter.lua` (syntax highlighting)
 
 4. **Install Plugins**
-   - Open Neovim and run:
+   - Open Neovim and plugins will automatically install via lazy.nvim
+   - You can also manually trigger installation with:
      ```vim
-     :PackerSync
+     :Lazy
      ```
-   - This will automatically install packer.nvim and all defined plugins.
+   - This will open the Lazy.nvim dashboard where you can manage plugins
 
 ## Language Server Setup
 
@@ -144,7 +145,7 @@ nvim_lsp.pyright.setup{
 ## Updating Plugins
 - Open Neovim and run:
   ```vim
-  :PackerUpdate
+  :Lazy update
   ```
 
 ## Troubleshooting
@@ -157,15 +158,15 @@ nvim_lsp.pyright.setup{
 
 ### Checking Plugin Status
 ```vim
-:PackerStatus    " View plugin installation status
-:LspInfo         " Check LSP server status
-:checkhealth     " General Neovim health check
+:Lazy         " View plugin installation status and manage plugins
+:LspInfo      " Check LSP server status
+:checkhealth  " General Neovim health check
 ```
 
 ## File Overview
 
 - **`init.lua`**: Module entry point, loads all configuration modules
-- **`packer.lua`**: Plugin management with packer.nvim, auto-installs if missing
+- **`lazy.lua`**: Plugin management with lazy.nvim, auto-installs if missing
 - **`lsp.lua`**: LSP configuration with nvim-cmp for autocompletion
 - **`remap.lua`**: Custom key mappings with leader key set to space
 - **`set.lua`**: General Neovim settings and options
@@ -175,7 +176,7 @@ nvim_lsp.pyright.setup{
 ## Features
 
 ### Installed Plugins
-- **packer.nvim**: Plugin manager with auto-bootstrap
+- **lazy.nvim**: Plugin manager with auto-bootstrap
 - **telescope.nvim**: Fuzzy finder for files and content
 - **tokyonight.nvim**: Modern colorscheme
 - **nvim-treesitter**: Advanced syntax highlighting
