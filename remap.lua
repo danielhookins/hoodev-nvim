@@ -8,5 +8,5 @@ if telescope_status then
     vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
     vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
 else
-    print("Telescope is not installed. Run :PackerInstall to install it.")
+    print("Telescope is not available. Run :Lazy to check plugin status.")
 end

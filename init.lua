@@ -1,6 +1,6 @@
 require("hoodev-nvim.set")
-require("hoodev-nvim.remap")
 require("hoodev-nvim.lazy")
+require("hoodev-nvim.remap")
 require("hoodev-nvim.treesitter")
 require("hoodev-nvim.lsp")
 require("hoodev-nvim.theme")
