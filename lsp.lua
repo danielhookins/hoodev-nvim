@@ -14,6 +14,13 @@ local feedkey = function(key, mode)
 end
 
 cmp.setup({
+  enabled = function()
+    -- Disable completion in markdown files
+    if vim.bo.filetype == 'markdown' then
+      return false
+    end
+    return true
+  end,
   snippet = {
     expand = function(args)
       vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
